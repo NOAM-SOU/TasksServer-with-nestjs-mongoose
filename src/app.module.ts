@@ -4,14 +4,17 @@ import { AppService } from './app.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { UsersModule } from './users/users.module';
 import { TasksModule } from './tasks/tasks.module';
+import { mongoUri } from './config/keys';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
     MongooseModule.forRoot(
-      'mongodb+srv://noam:cuentodehadas2022@cluster0.9vox8.mongodb.net/todos?retryWrites=true&w=majority', // connect to mongoDB
+      mongoUri, // connect to mongoDB
     ),
     UsersModule,
     TasksModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],

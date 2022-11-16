@@ -1,26 +1,40 @@
-import { Injectable, Dependencies } from '@nestjs/common';
-import { getModelToken } from '@nestjs/mongoose';
+import { Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
+import { createTaskDto } from 'src/tasks/dto/create-task.dto';
 import { CreateUserDto } from './dto/create-user.dto';
-import { User } from './schemas/user.schema';
+import { User, UserDocument } from './schemas/user.schema';
 
 @Injectable()
-@Dependencies(getModelToken(User.name))
 export class UsersService {
-  userModel: any;
-  constructor(userModel) {
-    this.userModel = userModel;
-  }
-
-  async getUsers() {
+  constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
+  async raed() {
     return await this.userModel.find();
   }
 
-  async getUser(id: string) {
-    return await this.userModel.findById(id);
+  async readOne(id: string) {
+    console.log('shshssh');
+
+    return await this.userModel.findById({ _id: id });
   }
 
-  async createUser(user: CreateUserDto) {
-    const newUser = await this.userModel.create(user);
-    return newUser;
-  }
+  // async create(user: CreateUserDto) {
+  //   const newUser = await this.userModel.create(user);
+  //   return newUser;
+  // }
+
+  // async update(id: string, update: createTaskDto, who: string) {
+  //   return await this.userModel.findOneAndUpdate(
+  //     {
+  //       _id: id,
+  //     },
+  //     {
+  //       $push: { [who]: update },
+  //     },
+  //   );
+  // }
+
+  // async delete(id: string) {
+  //   return await this.userModel.findByIdAndDelete({ _id: id });
+  // }
 }
