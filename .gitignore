@@ -39,5 +39,7 @@ users.http
 tasks.http
 app.http
 package-lock.json
-
+auth.http
 src/config/keys.ts
+
+.env

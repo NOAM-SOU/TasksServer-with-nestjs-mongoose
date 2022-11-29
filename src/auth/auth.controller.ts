@@ -1,0 +1,20 @@
+import { Body, Controller, Post } from '@nestjs/common';
+import { CreateUserDto } from 'src/users/dto/create-user.dto';
+import { ExistingUserDTO } from 'src/users/dto/existing-user.dto';
+import { UserI } from 'src/users/interfaces/User';
+import { AuthService } from './auth.service';
+
+@Controller('auth')
+export class AuthController {
+  constructor(private authService: AuthService) {}
+
+  @Post('register')
+  async register(@Body() user: CreateUserDto): Promise<UserI> {
+    return await this.authService.register(user);
+  }
+
+  @Post('login')
+  async login(@Body() user: ExistingUserDTO) {
+    return await this.authService.login(user);
+  }
+}

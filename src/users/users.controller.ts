@@ -1,44 +1,32 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Param,
-  Post,
-  Put,
-} from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Put } from '@nestjs/common';
 import { UsersService } from './users.service';
-// import { CreateUserDto } from './dto/create-user.dto';
-// import { UserI } from './interfaces/User';
+import { CreateUserDto } from './dto/create-user.dto';
+import { UserI } from './interfaces/User';
 
 @Controller('users')
 export class UsersController {
   constructor(private usersService: UsersService) {}
 
-  // @Get()
-  // getUsers(): Promise<UserI[]> {
-  //   return this.usersService.raed();
-  // }
+  @Get()
+  getUsers(): Promise<UserI[]> {
+    return this.usersService.raed();
+  }
   // @Get(':id')
   // getUser(@Param('id') id: string): Promise<UserI> {
   //   return this.usersService.readOne(id);
   // }
 
-  // @Post()
-  // createUser(@Body() user: CreateUserDto): Promise<UserI> {
-  //   return this.usersService.create(user);
-  // }
-  // @Delete(':id')
-  // deleteUser(@Param('id') id): string {
-  //   console.log(id);
+  @Delete(':id')
+  deleteUser(@Param('id') id): string {
+    console.log(id);
 
-  //   return `eliminando usuario ${id}`;
-  // }
-  // @Put(':id')
-  // updateUser(@Body() user: CreateUserDto, @Param('id') id): string {
-  //   console.log(user);
-  //   console.log(id);
+    return `eliminando usuario ${id}`;
+  }
+  @Put(':id')
+  updateUser(@Body() user: CreateUserDto, @Param('id') id): string {
+    console.log(user);
+    console.log(id);
 
-  //   return 'actualizando usuario';
-  // }
+    return 'actualizando usuario';
+  }
 }

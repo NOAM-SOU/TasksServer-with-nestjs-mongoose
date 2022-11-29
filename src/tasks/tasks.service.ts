@@ -11,14 +11,14 @@ export class TasksService {
   private usersService: UsersService;
   constructor(@InjectModel(Task.name) private taskModel: Model<TaskDocument>) {}
 
-  // async read() {
-  //   return await this.taskModel.find();
-  // }
+  async read() {
+    return await this.taskModel.find();
+  }
 
-  // async readOne(id: string) {
-  //   const tasks = await this.taskModel.findOne({ _id: id });
-  //   return `Task: ${tasks}`;
-  // }
+  async readOne(id: string) {
+    const tasks = await this.taskModel.findOne({ _id: id });
+    return `Task: ${tasks}`;
+  }
 
   // async create(id: string, task: createTaskDto) {
   //   const newTask = await this.taskModel.create({
