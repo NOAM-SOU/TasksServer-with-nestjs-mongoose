@@ -1,7 +1,18 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  UseGuards,
+} from '@nestjs/common';
+import { createTaskDto } from './dto/create-task.dto';
+import { TaskI } from './interfaces/Task';
 // import { createTaskDto } from './dto/create-task.dto';
 // import { TaskI } from './interfaces/Task';
 import { TasksService } from './tasks.service';
+import { JwtGuard } from 'src/auth/guards/jwt.guard';
 
 @Controller('tasks')
 export class TasksController {
@@ -12,13 +23,33 @@ export class TasksController {
   //   return this.tasksService.read();
   // }
 
-  // @Get(':id')
-  // getTask(@Param('id') id: string): Promise<string> {
-  //   return this.tasksService.readOne(id);
-  // }
+  @UseGuards(JwtGuard)
+  @Get(':id')
+  getTask(@Param('id') id: string): Promise<TaskI> {
+    return this.tasksService.readOne(id);
+  }
 
-  // @Post(':id')
-  // createTask(@Body() task: createTaskDto, @Param('id') id): Promise<string> {
-  //   return this.tasksService.create(id, task);
-  // }
+  @UseGuards(JwtGuard)
+  @Post(':id')
+  addTask(
+    @Body() task: createTaskDto,
+    @Param('id') id: string,
+  ): Promise<TaskI> {
+    return this.tasksService.addTask(task, id);
+  }
+
+  @UseGuards(JwtGuard)
+  @Delete(':userId/:id')
+  deleteTask(
+    @Param('userId') userId: string,
+    @Param('id') id: string,
+  ): Promise<TaskI> {
+    return this.tasksService.deleteTask(userId, id);
+  }
+
+  @UseGuards(JwtGuard)
+  @Get('completed/:id')
+  completedTask(@Param('id') id: string): Promise<TaskI> {
+    return this.tasksService.completedTask(id);
+  }
 }

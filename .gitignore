@@ -41,5 +41,6 @@ app.http
 package-lock.json
 auth.http
 src/config/keys.ts
+https
 
 .env

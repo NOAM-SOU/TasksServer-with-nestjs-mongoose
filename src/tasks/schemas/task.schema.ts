@@ -13,7 +13,7 @@ export class Task {
   description: string;
 
   @Prop()
-  done: boolean;
+  completed: boolean;
 
   @Prop({ type: schema.Types.ObjectId })
   userId: { type: schema.Types.ObjectId; ref: 'User' };
