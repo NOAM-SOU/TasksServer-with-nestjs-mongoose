@@ -19,7 +19,9 @@ export class AuthService {
     if (existitngUser) throw new Error('User already exists');
     const hashedPassword = await hashPassword(user.password);
     const newUser = await this.userService.create(user, hashedPassword);
-    return getUser(newUser);
+    const userT = await getUser(newUser);
+    const jwt = await this.jwtService.signAsync({ userT });
+    return { token: jwt };
   }
 
   async login(user: ExistingUserDTO): Promise<{ token: string }> {
