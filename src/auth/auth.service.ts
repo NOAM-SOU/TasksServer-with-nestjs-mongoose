@@ -19,8 +19,7 @@ export class AuthService {
     if (existitngUser) throw new Error('User already exists');
     const hashedPassword = await hashPassword(user.password);
     const newUser = await this.userService.create(user, hashedPassword);
-    const userT = await getUser(newUser);
-    const jwt = await this.jwtService.signAsync({ userT });
+    const jwt = await this.jwtService.signAsync(await getUser(newUser));
     return { token: jwt };
   }
 
