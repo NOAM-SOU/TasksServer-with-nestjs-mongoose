@@ -1,20 +1,25 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
-// import { createTaskDto } from 'src/tasks/dto/create-task.dto';
+import { TaskI } from 'src/tasks/interfaces/Task';
 import { CreateUserDto } from './dto/create-user.dto';
+import { UserI } from './interfaces/User';
 import { User, UserDocument } from './schemas/user.schema';
 
 @Injectable()
 export class UsersService {
   constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
 
-  async raed() {
+  async read(): Promise<UserI[]> {
     return await this.userModel.find();
   }
 
-  async readOne(email: string) {
-    return await this.userModel.findOne({ email });
+  async readOne(email: string): Promise<UserDocument> {
+    return await this.userModel.findOne({ email }).lean();
+  }
+
+  async readOneAndPopulate(id: string, field: string): Promise<TaskI[]> {
+    return (await this.userModel.findOne({ _id: id }).populate(field)).tasks;
   }
 
   async create(user: CreateUserDto, pass: string) {

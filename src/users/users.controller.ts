@@ -9,12 +9,13 @@ export class UsersController {
 
   @Get()
   getUsers(): Promise<UserI[]> {
-    return this.usersService.raed();
+    return this.usersService.read();
   }
-  // @Get(':id')
-  // getUser(@Param('id') id: string): Promise<UserI> {
-  //   return this.usersService.readOne(id);
-  // }
+
+  @Get(':email')
+  getUser(@Param('email') email: string): Promise<UserI> {
+    return this.usersService.readOne(email);
+  }
 
   @Delete(':id')
   deleteUser(@Param('id') id): string {

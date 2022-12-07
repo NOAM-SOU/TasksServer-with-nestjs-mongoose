@@ -20,6 +20,10 @@ export class TasksService {
     return await this.taskModel.findOne({ _id: id });
   }
 
+  async getAllTasks(id: string): Promise<TaskI[]> {
+    return await this.usersService.readOneAndPopulate(id, 'tasks');
+  }
+
   async create(
     createTaskDto: createTaskDto,
     id: string,
