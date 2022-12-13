@@ -5,6 +5,7 @@ import {
   Get,
   Param,
   Post,
+  Put,
   UseGuards,
 } from '@nestjs/common';
 import { createTaskDto } from './dto/create-task.dto';
@@ -47,7 +48,16 @@ export class TasksController {
   }
 
   @UseGuards(JwtGuard)
-  @Get('completed/:id')
+  @Put(':id')
+  updateTask(
+    @Param('id') id: string,
+    @Body() task: createTaskDto,
+  ): Promise<TaskI> {
+    return this.tasksService.updateTask(id, task);
+  }
+
+  @UseGuards(JwtGuard)
+  @Put('completed/:id')
   completedTask(@Param('id') id: string): Promise<TaskI> {
     return this.tasksService.completedTask(id);
   }

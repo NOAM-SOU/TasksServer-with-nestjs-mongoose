@@ -47,6 +47,12 @@ export class TasksService {
     return taskD;
   }
 
+  async updateTask(id: string, task: createTaskDto): Promise<TaskDocument> {
+    return await this.taskModel.findByIdAndUpdate({ _id: id }, task, {
+      new: true,
+    });
+  }
+
   async completedTask(id: string): Promise<TaskI> {
     const task = await this.readOne(id);
     return await this.taskModel.findByIdAndUpdate(
