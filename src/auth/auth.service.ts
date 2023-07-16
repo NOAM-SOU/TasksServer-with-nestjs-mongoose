@@ -16,6 +16,8 @@ export class AuthService {
 
   async register(user: CreateUserDto): Promise<Token> {
     const existitngUser = await this.userService.readOne(user.email);
+    console.log('exist', existitngUser);
+
     if (existitngUser) throw new Error('User already exists');
     const hashedPassword = await hashPassword(user.password);
     const newUser = await this.userService.create(user, hashedPassword);
@@ -23,10 +25,9 @@ export class AuthService {
     return { token: jwt };
   }
 
-  async login(user: ExistingUserDTO): Promise<Token> {
+  async login(user: ExistingUserDTO) {
     const userExisting = await this.userService.readOne(user.email);
-    console.log(userExisting);
-    if (!user) throw new Error('User not found');
+    if (!userExisting) throw new Error('User not found');
     const passMatch = await comparePass(user.password, userExisting.password);
     if (!passMatch) throw new Error('Wrong password');
     const jwt = await this.jwtService.signAsync(await getUser(userExisting));
